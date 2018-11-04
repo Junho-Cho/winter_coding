@@ -1,8 +1,10 @@
 package com.example.lgpc.winter_coding;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -11,6 +13,8 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,6 +77,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             String getTime = sdf.format(date);
             String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/WinterCoding";
             String file = folder + File.separator + getTime + ".jpg";
+
+            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+            } else {
+
+            }
 
             File FolderPath = new File(folder);
             if (!FolderPath.exists()) {
